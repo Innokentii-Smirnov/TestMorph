@@ -6,6 +6,7 @@ from package.eval import is_correct
 def postprocess(morpholex: str) -> str:
 	return morpholex.replace('\u0301', '').replace('|', '')
 predfile, corrfile, target = argv[1:]
+source = os.getcwd()
 os.makedirs(target, exist_ok=True)
 os.chdir(target)
 if path.exists('correct.txt'):
@@ -29,8 +30,8 @@ missing = set()
 n_correct = 0
 n_equal = 0
 total = 0
-with (open(predfile, 'r', encoding='utf-8') as fin,
-	  open(corrfile, 'r', encoding='utf-8') as ref,
+with (open(path.join(source, predfile), 'r', encoding='utf-8') as fin,
+	  open(path.join(source, corrfile), 'r', encoding='utf-8') as ref,
 	  open('correct.txt', 'w', encoding='utf-8') as corrf,
 	  open('errors.txt', 'w', encoding='utf-8') as errf,
 	  open('missing.txt', 'w', encoding='utf-8') as mf,
