@@ -5,7 +5,7 @@ from package.util import split, join
 from package.eval import is_correct
 def postprocess(morpholex: str) -> str:
 	return morpholex.replace('\u0301', '').replace('|', '')
-predfile, corrfile, target = argv[1:]
+predfile, corrfile, target, sep = argv[1:]
 source = os.getcwd()
 os.makedirs(target, exist_ok=True)
 os.chdir(target)
@@ -43,7 +43,7 @@ with (open(path.join(source, predfile), 'r', encoding='utf-8') as fin,
 		corr: set[str] = split(joined_corr)
 		pred = set[str]()
 		while ((line := fin.readline().rstrip()) != ''):
-			spl = line.split('\t')
+			spl = line.split(sep)
 			if len(spl) == 2:
 				morpholex, generated = spl
 				pred.add(generated)
