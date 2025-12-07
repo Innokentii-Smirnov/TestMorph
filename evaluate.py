@@ -110,7 +110,7 @@ with open('new_errors.txt', 'w', encoding='utf-8') as fout:
 with open('new_missing.txt', 'w', encoding='utf-8') as fout:
 	for string in new_missing:
 		fout.write(string + '\n')
-accuracy = 100 * n_correct / total
-print('Accuracy: {0} % ({1} / {2}).'.format(round(accuracy, 2), n_correct, total))
-strict_accuracy = 100 * n_equal / total
-print('Equality: {0} % ({1} / {2}).'.format(round(strict_accuracy, 2), n_equal, total))
+recall = 100 * n_correct / total
+print('Recall: {0} % ({1} / {2}).'.format(round(recall, 2), n_correct, total))
+accuracy = 100 * n_equal / total
+print('Accuracy: {0} % ({1} / {2}).'.format(round(accuracy, 2), n_equal, total))
