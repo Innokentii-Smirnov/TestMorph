@@ -29,7 +29,8 @@ errors = set()
 missing = set()
 n_correct = 0
 n_equal = 0
-total = 0
+total_wordforms = 0
+total_segmentations = 0
 with (open(path.join(source, predfile), 'r', encoding='utf-8') as fin,
 	  open(path.join(source, corrfile), 'r', encoding='utf-8') as ref,
 	  open('correct.txt', 'w', encoding='utf-8') as corrf,
@@ -38,9 +39,10 @@ with (open(path.join(source, predfile), 'r', encoding='utf-8') as fin,
 	  open('incomplete.txt', 'w', encoding='utf-8') as incompf,
 	  open('extra.txt', 'w', encoding='utf-8') as extraf):
 	for corr_line in ref:
-		total += 1
+		total_wordforms += 1
 		joined_corr = corr_line.rstrip()
 		corr: set[str] = split(joined_corr)
+		total_segmentations += len(corr)
 		pred = set[str]()
 		while ((line := fin.readline().rstrip()) != ''):
 			spl = line.split(sep)
@@ -58,7 +60,7 @@ with (open(path.join(source, predfile), 'r', encoding='utf-8') as fin,
 		correctness = is_correct(postprocessed, corr)
 		equality = (postprocessed == corr)
 		if correctness:
-			n_correct += 1
+			n_correct += len(postprocessed & corr)
 			if equality:
 				n_equal += 1
 				string = '{0:30} {1}'.format(morpholex, joined_pred)
@@ -110,7 +112,7 @@ with open('new_errors.txt', 'w', encoding='utf-8') as fout:
 with open('new_missing.txt', 'w', encoding='utf-8') as fout:
 	for string in new_missing:
 		fout.write(string + '\n')
-recall = 100 * n_correct / total
-print('Recall: {0} % ({1} / {2}).'.format(round(recall, 2), n_correct, total))
-accuracy = 100 * n_equal / total
-print('Accuracy: {0} % ({1} / {2}).'.format(round(accuracy, 2), n_equal, total))
+recall = 100 * n_correct / total_segmentations
+print('Recall: {0} % ({1} / {2}).'.format(round(recall, 2), n_correct, total_segmentations))
+accuracy = 100 * n_equal / total_wordforms
+print('Accuracy: {0} % ({1} / {2}).'.format(round(accuracy, 2), n_equal, total_wordforms))
