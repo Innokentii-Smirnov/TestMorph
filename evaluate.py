@@ -48,7 +48,8 @@ with (open(path.join(source, predfile), 'r', encoding='utf-8') as fin,
 			spl = line.split(sep)
 			if len(spl) == 2:
 				morpholex, generated = spl
-				pred.add(generated)
+				if generated != '+?':
+					pred.add(generated)
 			else:
 				morpholex, _, mark = spl
 				assert mark == '+?', morpholex
